@@ -29,7 +29,7 @@ abstract class WebViewPlatformCallbacksHandler {
   /// Invoked by [WebViewPlatformController] when a page has finished loading.
   void onPageFinished(String url);
 
-  Future<Response> shouldInterceptRequest(String url);
+  Future<var> shouldInterceptRequest(String url);
 
   /// Report web resource loading error to the host application.
   void onWebResourceError(WebResourceError error);
