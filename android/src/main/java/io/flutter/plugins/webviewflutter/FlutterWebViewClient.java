@@ -125,6 +125,10 @@ class FlutterWebViewClient {
     methodChannel.invokeMethod("onPageFinished", args);
   }
 
+  private WebResourceResponse shouldInterceptRequest(WebView view, final String url) {
+        return new SyncExecutor().getResponse(methodChannel,url);
+    }
+
   private void onWebResourceError(
       final int errorCode, final String description, final String failingUrl) {
     final Map<String, Object> args = new HashMap<>();
@@ -179,6 +183,14 @@ class FlutterWebViewClient {
         FlutterWebViewClient.this.onPageFinished(view, url);
       }
 
+      @Nullable
+      @Override
+      public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+        WebResourceResponse response = FlutterWebViewClient.this.shouldInterceptRequest(view, url);
+        if (response != null) return response;
+          return super.shouldInterceptRequest(view, url);
+      }
+
       @TargetApi(Build.VERSION_CODES.M)
       @Override
       public void onReceivedError(
@@ -204,6 +216,21 @@ class FlutterWebViewClient {
 
   private WebViewClientCompat internalCreateWebViewClientCompat() {
     return new WebViewClientCompat() {
+
+      @Nullable
+      @Override
+      public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+        WebResourceResponse response = FlutterWebViewClient.this.shouldInterceptRequest(view, url);
+        if (response != null) return response;
+          return super.shouldInterceptRequest(view, url);
+      }
+
+      @Nullable
+      @Override
+      public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+        return super.shouldInterceptRequest(view, request);
+      }
+
       @Override
       public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
         return FlutterWebViewClient.this.shouldOverrideUrlLoading(view, request);
