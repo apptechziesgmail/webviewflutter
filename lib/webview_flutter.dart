@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'dart:async';
+import 'package:http/http.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -142,7 +143,7 @@ typedef void PageStartedCallback(String url);
 /// Signature for when a [WebView] has finished loading a page.
 typedef void PageFinishedCallback(String url);
 
-typedef Future ShouldInterceptRequestCallback(String url);
+typedef Future<Response> ShouldInterceptRequestCallback(String url);
 
 /// Signature for when a [WebView] has failed to load a resource.
 typedef void WebResourceErrorCallback(WebResourceError error);
@@ -563,7 +564,7 @@ class _PlatformCallbacksHandler implements WebViewPlatformCallbacksHandler {
   }
 
   @override
-  Future shouldInterceptRequest(String url) async {
+  Future<Response> shouldInterceptRequest(String url) async {
     if (_widget.shouldInterceptRequest != null) {
       return _widget.shouldInterceptRequest(url);
     }
