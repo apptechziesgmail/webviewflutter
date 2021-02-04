@@ -142,7 +142,7 @@ typedef void PageStartedCallback(String url);
 /// Signature for when a [WebView] has finished loading a page.
 typedef void PageFinishedCallback(String url);
 
-typedef Future<var> ShouldInterceptRequestCallback(String url);
+typedef Future ShouldInterceptRequestCallback(String url);
 
 /// Signature for when a [WebView] has failed to load a resource.
 typedef void WebResourceErrorCallback(WebResourceError error);
@@ -563,7 +563,7 @@ class _PlatformCallbacksHandler implements WebViewPlatformCallbacksHandler {
   }
 
   @override
-  Future<var> shouldInterceptRequest(String url) async {
+  Future shouldInterceptRequest(String url) async {
     if (_widget.shouldInterceptRequest != null) {
       return _widget.shouldInterceptRequest(url);
     }
