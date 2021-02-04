@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'dart:async';
+import 'package:http/http.dart';
 
 import 'package:flutter/services.dart';
 
@@ -47,7 +48,7 @@ class MethodChannelWebViewPlatform implements WebViewPlatformController {
         String url = call.arguments;
         var response = await _platformCallbacksHandler.shouldInterceptRequest(url);
         if (response != null) {
-          return {"data": response.data, "mineType": response.mineType, "encoding": response.encoding};
+          return Response("text/javascript", null)
         }
         return null;
       case 'onWebResourceError':

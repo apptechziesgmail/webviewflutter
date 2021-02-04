@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'dart:async';
+import 'package:http/http.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
